@@ -11,7 +11,7 @@
 # <tool-platform> is the tebako release asset platform (macos-arm64,
 # linux-gnu-x86_64, linux-gnu-arm64). [flavor] is the recipe's flavor key
 # (the spec 28 §8 axis shape; for truffleruby the flavor names the MODE —
-# default "native"; `jvm` lands with TODO.truffleruby/03). --release-only
+# default "native"; `jvm` is planned, not yet shipped). --release-only
 # emits just TEBAKO_RELEASE/PKG_NAME/PKG_VERSION. A tool listed in
 # tools.sha256 without a pin for the requested platform is a named error,
 # never a guess (spec 00 §9).
