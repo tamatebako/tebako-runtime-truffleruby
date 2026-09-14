@@ -1,8 +1,8 @@
 name: build-payload
 # truffleruby feedstock: fetch → stage → image → smoke → (on tags) publish.
 # One mechanical leg per (flavor × platform) — the flavor names the MODE:
-# native (the exe-relative native-image launcher) and jvm (TODO.truffleruby/03
-# — spec 33's runtime-on-runtime form: env image composed ON the published
+# native (the exe-relative native-image launcher) and jvm (planned —
+# spec 33's runtime-on-runtime form: env image composed ON the published
 # graalvm java owner; its legs' smoke is the COMPOSED wire — shim → dep
 # runtime → owner — plus the spec 33 §5 standalone fail-closed negative
 # gate). Platforms aarch64-macos + x86_64-linux-gnu (+ aarch64-linux-gnu
