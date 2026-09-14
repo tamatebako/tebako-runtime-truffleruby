@@ -5,7 +5,7 @@ schema_version: 1
 # block is the AUTHORITY (the release shard mirrors it for the shim's
 # plan-time read; the driver cross-checks). Filled from recipe.yml's
 # flavors.jvm block by tools/build; every fact below is the 2026-09-07
-# spec-33 dogfood's (TODO.truffleruby/03's record), never re-derived.
+# spec-33 dogfood's record, never re-derived.
 identity:
   schema_version: 1
   kind: runtime
@@ -52,7 +52,7 @@ provides:
 @@ENTRYPOINTS_YAML@@
   # The owner edge + compose template (spec 33 §2). graalvm ONLY — a
   # temurin owner must produce the named error, never a slow silent run
-  # (TODO.truffleruby/03 item 2; bench-2a 2026-09-07: interpreted JVM mode
+  # (bench-2a 2026-09-07: interpreted JVM mode
   # runs fib34 ~5.2x SLOWER than MRI — silence would ship that).
   # -XX:-UseJVMCINativeLibrary is the dogfood-proven bridge: the
   # truffle-runtime jar JNI-links the owner's libgraal ONLY on an exact
