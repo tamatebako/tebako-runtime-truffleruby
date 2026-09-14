@@ -6,7 +6,7 @@ schema_version: 1
 # declare entrypoints). `implementation: truffleruby` is the spec 28 §8
 # flavor axis — the selector spelling is ruby:truffleruby (one ruby
 # engine). The jvm-mode sibling (spec 33's runtime-on-runtime form)
-# lands with TODO.truffleruby/03 as a separate registry name; the mode
+# lands as a separate registry name; the mode
 # is a NON-axis (spec 33 §6).
 # Platform matrix: upstream (oracle/truffleruby) ships NO windows build
 # and no macos-x86_64 build — the three triplets below are the complete
