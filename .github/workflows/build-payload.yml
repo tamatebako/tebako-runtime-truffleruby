@@ -19,7 +19,7 @@ name: build-payload
 # (runtimes publish through the runtime release flow).
 #
 # PIN DISCIPLINE (the owner's rule): this workflow carries NO version or
-# digest literals. recipe.yml is the SSOT — the `tools:` block pins the
+# digest literals. Tebakofile is the SSOT — the `tools:` block pins the
 # tfs CLI + the link-unit tarball (release + per-platform sha256), the
 # `runtime:` block pins the wrapper's product line; tools/pins.rb reads
 # them into $GITHUB_ENV and the fetch steps cross-check the pins against
@@ -50,12 +50,12 @@ jobs:
       fail-fast: false
       matrix:
         # Identity only (which leg, which runner, which flavor). All
-        # versions/digests flow from recipe.yml via tools/pins.rb. The
+        # versions/digests flow from Tebakofile via tools/pins.rb. The
         # jvm flavor (spec 33) ships TWO legs: the graalvm owner pair its
         # composed smoke needs exists for macos-arm64 + linux-gnu-x86_64
         # only (openjdk-graalvm 25.0.4.1 has no linux-arm64 leg — the
         # truffleruby-jvm aarch64-linux-gnu leg is a named follow-up
-        # gated on the owner, declared in recipe.yml, never omitted
+        # gated on the owner, declared in Tebakofile, never omitted
         # silently).
         flavor: [native, jvm]
         platform:
@@ -77,21 +77,21 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      # recipe.yml's tools block is the toolchain pin SSOT; pins.rb emits
+      # Tebakofile's tools block is the toolchain pin SSOT; pins.rb emits
       # TEBAKO_RELEASE, PKG_NAME/PKG_VERSION, the per-platform
       # TFS_ASSET/TFS_SHA256 + LINK_UNIT_ASSET/LINK_UNIT_SHA256 for THIS
       # leg's asset_platform, the wrapper pin (WRAPPER_RELEASE/
       # WRAPPER_ASSET), the RUNTIME_STEM naming base, and PRELOAD_SHIM.
-      - name: Read the toolchain pins (recipe.yml is the SSOT)
+      - name: Read the toolchain pins (Tebakofile is the SSOT)
         shell: bash
         run: ruby tools/pins.rb "${{ matrix.platform.asset_platform }}" "${{ matrix.flavor }}" --env >> "$GITHUB_ENV"
 
       # The imager (tfs mkimage/extract) is the product repo's own
       # published binary — releases are the interface; the feedstock
       # never builds the tebako stack from source. The pin flows from
-      # recipe.yml and is cross-checked against the release's SHA256SUMS,
+      # Tebakofile and is cross-checked against the release's SHA256SUMS,
       # like the recipe pins the truffleruby archive's.
-      - name: Fetch the imager (pinned by recipe.yml, sha256-verified)
+      - name: Fetch the imager (pinned by Tebakofile, sha256-verified)
         shell: bash
         env:
           TFS_BIN: .packager/tfs
@@ -104,7 +104,7 @@ jobs:
           echo "$TFS_SHA256  $TFS_BIN" | { sha256sum -c - 2>/dev/null || shasum -a 256 -c -; }
           # The pin must agree with the release's own sums (both anchored).
           got=$(awk -v a="$TFS_ASSET" '$2 == a {print $1}' SHA256SUMS)
-          [ "$got" = "$TFS_SHA256" ] || { echo "::error::pin mismatch for $TFS_ASSET: recipe.yml=$TFS_SHA256 release=${got:-ABSENT}"; exit 1; }
+          [ "$got" = "$TFS_SHA256" ] || { echo "::error::pin mismatch for $TFS_ASSET: Tebakofile=$TFS_SHA256 release=${got:-ABSENT}"; exit 1; }
           chmod +x "$TFS_BIN"
           # Bare invocation prints the help and exits 0 (tfs has no
           # --version flag): the dead-binary smoke, here where the
@@ -114,7 +114,7 @@ jobs:
       # The wrapper exe — the runtime pair's process entry point (spec
       # 29). Same releases-are-the-interface rule as the imager; the
       # recipe's runtime.wrapper_tebako pin names the line.
-      - name: Fetch the wrapper (pinned by recipe.yml)
+      - name: Fetch the wrapper (pinned by Tebakofile)
         shell: bash
         env:
           WRAPPER_BIN: .packager/tebako-runtime-launcher
@@ -131,7 +131,7 @@ jobs:
       # for the layout's preload_shim grant — the jail's host-IO binding
       # survives the exec into the interpreter. NOT in the release's
       # SHA256SUMS monolith: the recipe pin is the anchor.
-      - name: Fetch the preload shim (link-unit, pinned by recipe.yml)
+      - name: Fetch the preload shim (link-unit, pinned by Tebakofile)
         shell: bash
         run: |
           set -euo pipefail
@@ -156,7 +156,7 @@ jobs:
           curl -sL --fail -o SHA256SUMS "$base/SHA256SUMS"
           echo "$TEBAKO_SHIM_SHA256  .packager/tebako-shim" | { sha256sum -c - 2>/dev/null || shasum -a 256 -c -; }
           got=$(awk -v a="$TEBAKO_SHIM_ASSET" '$2 == a {print $1}' SHA256SUMS)
-          [ "$got" = "$TEBAKO_SHIM_SHA256" ] || { echo "::error::pin mismatch for $TEBAKO_SHIM_ASSET: recipe.yml=$TEBAKO_SHIM_SHA256 release=${got:-ABSENT}"; exit 1; }
+          [ "$got" = "$TEBAKO_SHIM_SHA256" ] || { echo "::error::pin mismatch for $TEBAKO_SHIM_ASSET: Tebakofile=$TEBAKO_SHIM_SHA256 release=${got:-ABSENT}"; exit 1; }
           chmod +x .packager/tebako-shim
           echo "SHIM_BIN=$PWD/.packager/tebako-shim" >> "$GITHUB_ENV"
 
@@ -226,9 +226,9 @@ jobs:
               pub="$f"
             fi
           done
-          [ -n "$pub" ] || { echo "::error::tag $GITHUB_REF_NAME matches no flavor's wrapper line (recipe.yml)"; exit 1; }
+          [ -n "$pub" ] || { echo "::error::tag $GITHUB_REF_NAME matches no flavor's wrapper line (Tebakofile)"; exit 1; }
           echo "PUBLISH_FLAVOR=$pub" >> "$GITHUB_ENV"
-      - name: Read the toolchain pins (recipe.yml is the SSOT)
+      - name: Read the toolchain pins (Tebakofile is the SSOT)
         run: ruby tools/pins.rb macos-arm64 "$PUBLISH_FLAVOR" --env >> "$GITHUB_ENV"
       - name: Create the release + upload the runtime pairs
         shell: bash
