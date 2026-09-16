@@ -1,6 +1,6 @@
 schema_version: 1
 # Runtime manifest template for truffleruby (spec 03 §2.2, kind:
-# runtime; filled from recipe.yml's upstream/runtime blocks by
+# runtime; filled from Tebakofile's upstream/runtime blocks by
 # tools/build).
 identity:
   schema_version: 1
@@ -42,7 +42,7 @@ provides:
     # spec 28 §8's flavor axis — EngineProvides.implementation (tpkg
     # since spec 30 §1; additive, absent = eligible). L1 is authoritative;
     # the release-index shard mirrors the same value for the store's
-    # entry_meta. SSOT: recipe.yml's flavors.<flavor>.implementation.
+    # entry_meta. SSOT: Tebakofile's flavors.<flavor>.implementation.
     implementation: "@@IMPLEMENTATION@@"
   built_from:
     src_sha256: "@@UPSTREAM_SHA256@@"
