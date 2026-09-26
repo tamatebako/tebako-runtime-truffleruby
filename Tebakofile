@@ -219,8 +219,8 @@ tools:
       linux-gnu-arm64: "db1922f54ead5abc48f1a111cfabe809f2a1b6018b588ff1361ef58abd986732"
 
 image:
-  format: dwarfs
-  # .tfs everywhere (the tebako fs image — DwarFS-T format; normal dwarfs
-  # readers cannot read it)
+  format: limnifs
+  # .tfs everywhere (the tebako fs image — LimniFS, the default format;
+  # the store extension stays .tfs regardless of format)
   extension:
     default: tfs
