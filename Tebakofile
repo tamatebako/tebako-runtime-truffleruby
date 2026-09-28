@@ -124,22 +124,25 @@ flavors:
           strip_components: 1
     owner_smoke:
       repo: "tamatebako/tebako-runtime-openjdk"
-      release: "v2.5.0"
+      release: "v2.8.21"
       version: "25.0.4.1"
       # The owner line MUST be >= 2.5.0 — the spec-33 entry-routing rule
       # (the entry resolves past the dep mount) lives in that launcher; a
       # 2.4.0 owner joins the entry onto the dep mount (the 2026-09-07
-      # local gate; tebako#552). The exe digests equal the 2.5.0
+      # local gate; tebako#552). v2.8.21 additionally shares the 64 MiB
+      # limnifs inline-metadata ceiling with this repo's v2.8.21 imager —
+      # the owner mounts this runtime's image through its own driver, so
+      # the caps must match. The exe digests equal the 2.8.21
       # launcher's monolith entries (the pair's exe IS the launcher,
-      # byte-identical); the image digests are the openjdk v2.5.0
-      # release's own SHA256SUMS entries.
-      tebako: "2.5.0"
+      # byte-identical); the image digests are the openjdk v2.8.21
+      # release's .tfs.sha256 sidecar entries.
+      tebako: "2.8.21"
       exe_sha256:
-        macos-arm64: "b4725da9e99425acbda3d189738f78773b7658d63c015cf03ef4e2f035e94d28"
-        linux-gnu-x86_64: "02272c8ece40c5cfadc9cb77330d68f120b8eddd8ec3b8d2360ef56450d1f245"
+        macos-arm64: "2754c8985420a208f32ef277ca78c8c5f7e4a5aeac9a3e97c1420ece9b56edd8"
+        linux-gnu-x86_64: "2f2cf0ea2626179d3bad89198ffaae7e2f233d98f52227938f7935cbb660200f"
       image_sha256:
-        macos-arm64: "9df49bfb23dc634be9b673906a2374cada46b54a46ff11b70923788bbb431b50"
-        linux-gnu-x86_64: "7131b2ac273373318bacff3c2d04b4278f0889c239926a3b98034c78b1ceac40"
+        macos-arm64: "d901f04b1a4d1bef88cc4e84a87b1e87677fb82d44b1492b0bae1b880d216b45"
+        linux-gnu-x86_64: "91929057562a5c59260d5d338253c477aa1358a7b67bbce5fd530ff7369ac279"
 
 runtime:
   engine: "ruby"
