@@ -81,13 +81,14 @@ flavors:
     # The jvm pair REQUIRES the spec-33-aware launcher — tebako >= 2.5.0
     # (the shared runtime.wrapper_tebako stays the native flavor's 2.8.21
     # line; the mode rides the tebako line per spec 28 §8, so the two
-    # flavors coexist in one store: ruby-34.0.1-2.8.21 vs -2.5.0). Digests
-    # are the v2.5.0 release's SHA256SUMS entries, fetched 2026-09-07.
-    wrapper_tebako: "2.5.0"
+    # flavors coexist in one store: ruby-34.0.1-2.8.21 vs -2.8.22).
+    # Digests are the v2.8.22 release's SHA256SUMS entries, fetched
+    # 2026-09-28.
+    wrapper_tebako: "2.8.22"
     wrapper_sha256:
-      macos-arm64: "b4725da9e99425acbda3d189738f78773b7658d63c015cf03ef4e2f035e94d28"
-      linux-gnu-x86_64: "02272c8ece40c5cfadc9cb77330d68f120b8eddd8ec3b8d2360ef56450d1f245"
-      linux-gnu-arm64: "f7c89c0dae5bd80bf5e5898f9fc77e4f15fab4b8351dc1a56a4d92ae5352bbb7"
+      macos-arm64: "6491565e8e75a8e2776a75d4f03875db8a978e94b1d244c43649b773015552c6"
+      linux-gnu-x86_64: "5882c74710db287ac6e73c0d5c09afdfd696555da4ede5aad1c6b6e0b6235013"
+      linux-gnu-arm64: "e27befc2dcc5f00390b6bdf67bd4cfda0adbca53fbc363902e4423a0b852c91f"
     # The owner pair the composed smoke runs against (the jvm legs
     # download it into a throwaway store): the published java:graalvm
     # line — tamatebako/tebako-runtime-openjdk v2.8.21, graalvm CE 25.0.4.1 on the
