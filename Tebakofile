@@ -79,9 +79,9 @@ flavors:
     # §2's bridge law.
     argv_template: ["-XX:-UseJVMCINativeLibrary", "-Dorg.graalvm.language.ruby.home={mount}", "-Dorg.graalvm.language.llvm.home={mount}/lib/sulong", "--module-path", "{mount}/modules", "-m", "dev.truffleruby.launcher/org.truffleruby.launcher.RubyLauncher"]
     # The jvm pair REQUIRES the spec-33-aware launcher — tebako >= 2.5.0
-    # (the shared runtime.wrapper_tebako stays the native flavor's 2.4.0
+    # (the shared runtime.wrapper_tebako stays the native flavor's 2.8.21
     # line; the mode rides the tebako line per spec 28 §8, so the two
-    # flavors coexist in one store: ruby-34.0.1-2.4.0 vs -2.5.0). Digests
+    # flavors coexist in one store: ruby-34.0.1-2.8.21 vs -2.5.0). Digests
     # are the v2.5.0 release's SHA256SUMS entries, fetched 2026-09-07.
     wrapper_tebako: "2.5.0"
     wrapper_sha256:
@@ -90,11 +90,11 @@ flavors:
       linux-gnu-arm64: "f7c89c0dae5bd80bf5e5898f9fc77e4f15fab4b8351dc1a56a4d92ae5352bbb7"
     # The owner pair the composed smoke runs against (the jvm legs
     # download it into a throwaway store): the published java:graalvm
-    # line — tamatebako/tebako-runtime-openjdk v2.4.1, graalvm CE 25.0.4.1 on the
-    # tebako 2.4.0 line. Digests are that release's SHA256SUMS.txt
-    # entries (cross-checked at fetch; the owner exe IS the line's
-    # tebako-runtime-launcher bytes — same sums as the 2.4.0 wrapper
-    # pins above, by construction). NOTE: this block sits AFTER upstream
+    # line — tamatebako/tebako-runtime-openjdk v2.8.21, graalvm CE 25.0.4.1 on the
+    # tebako 2.8.21 line. Digests are that release's per-asset .sha256
+    # sidecar entries (cross-checked at fetch; the owner exe IS the
+    # line's tebako-runtime-launcher bytes — same sums as the 2.8.21
+    # wrapper pins below, by construction). NOTE: this block sits AFTER upstream
     # on purpose — tools/build's indentation-anchored reader takes the
     # first 6-space `version:`/`tag:` in the flavor, which must be the
     # UPSTREAM's (the 2026-09-07 local gate caught owner_smoke.version
@@ -172,19 +172,21 @@ runtime:
   # (tebako-runtime-launcher) and the preload shim (link-unit). The line
   # number names the artifacts (tebako-runtime-<line>-34.0.1-*) and the
   # release tag (v<line> — the trr convention: the tag IS the tebako
-  # line). v2.4.0 is the NATIVE flavor's line (spec 32's kind:executable
-  # reader is REQUIRED downstream of this runtime — see the openjdk
-  # recipe's pin-comment history); the jvm flavor overrides per-flavor
+  # line). v2.8.21 is the NATIVE flavor's line (the limnifs era: the
+  # launcher's 64 MiB inline-metadata ceiling + the shard-era registry
+  # grammar; spec 32's kind:executable reader is REQUIRED downstream of
+  # this runtime — see the openjdk recipe's pin-comment history); the
+  # jvm flavor overrides per-flavor
   # (flavors.jvm.wrapper_tebako 2.5.0 — the spec-33-aware launcher).
-  wrapper_tebako: "2.4.0"
+  wrapper_tebako: "2.8.21"
   # The wrapper's trust anchor, per tool-platform (the launcher is the
   # shipped runtime pair's process entry point — an unauthenticated
-  # download would be a supply-chain hole). Digests are the v2.4.0
-  # release's SHA256SUMS entries, fetched 2026-09-06.
+  # download would be a supply-chain hole). Digests are the v2.8.21
+  # release's SHA256SUMS entries, fetched 2026-09-28.
   wrapper_sha256:
-    macos-arm64: "b27b44f560af3935458066e6d8815a8c985025ddf9657483303b45ad98e1db4c"
-    linux-gnu-x86_64: "910fc6d538e624150c9967564c67aefa277686ec00a77d898de8d78753ff12a7"
-    linux-gnu-arm64: "bf74a32b83c9b31ca96d23ae8fe72ba45c9592d4415e91998fddade6dcf549fb"
+    macos-arm64: "2754c8985420a208f32ef277ca78c8c5f7e4a5aeac9a3e97c1420ece9b56edd8"
+    linux-gnu-x86_64: "2f2cf0ea2626179d3bad89198ffaae7e2f233d98f52227938f7935cbb660200f"
+    linux-gnu-arm64: "22d1fc934e0bcc2d9d4349a81b5bcc274498e3cd771fcd858a2672d3a1928808"
 
 # Factory tools used by tools/build (the imager + the preload shim): the
 # tfs CLI and the link-unit tarball from the tamatebako/tebako release.
