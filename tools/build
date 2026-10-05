@@ -259,7 +259,11 @@ case "$URL" in
   *) echo "unsupported upstream archive extension in $URL"; exit 1 ;;
 esac
 
-STEM="tebako-runtime-$WRAPPER_TEBAKO-$VERSION-$ASSET_PLATFORM"
+# The pair stem carries tebako#716's language segment — the flavor's
+# implementation ("truffleruby" on both modes; IMPLEMENTATION is
+# presence-checked above; tools/pins.rb composes the same grammar from
+# the same recipe values).
+STEM="tebako-runtime-$WRAPPER_TEBAKO-$IMPLEMENTATION-$VERSION-$ASSET_PLATFORM"
 
 mkdir -p "$WORK" "$OUT"
 

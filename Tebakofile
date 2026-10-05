@@ -137,6 +137,12 @@ flavors:
       # launcher's monolith entries (the pair's exe IS the launcher,
       # byte-identical); the image digests are the openjdk v2.8.21
       # release's .tfs.sha256 sidecar entries.
+      # tebako#716: the fetched owner pair's ASSET name follows the
+      # pinned owner release's own era. v2.8.21's assets are the
+      # segment-less spelling, so this block carries NO `implementation`
+      # key; the bump to a post-#716 owner release adds
+      # `implementation: graalvm` here, and tools/pins.rb's OWNER_STEM
+      # composes the segmented name from it.
       tebako: "2.8.21"
       exe_sha256:
         macos-arm64: "2754c8985420a208f32ef277ca78c8c5f7e4a5aeac9a3e97c1420ece9b56edd8"
@@ -171,8 +177,9 @@ runtime:
   mount_root_override: false       # closed default — under exec-cache the interpreter reads the materialized tree, never the mount; granting a no-op knob violates spec 00 §9
   # The tebako product line the pair builds against: the wrapper exe
   # (tebako-runtime-launcher) and the preload shim (link-unit). The line
-  # number names the artifacts (tebako-runtime-<line>-34.0.1-*) and the
-  # release tag (v<line> — the trr convention: the tag IS the tebako
+  # number names the artifacts (tebako-runtime-<line>-truffleruby-34.0.1-*
+  # — tebako#716's language segment is the flavor's implementation) and
+  # the release tag (v<line> — the trr convention: the tag IS the tebako
   # line). v2.8.21 is the NATIVE flavor's line (the limnifs era: the
   # launcher's 64 MiB inline-metadata ceiling + the shard-era registry
   # grammar; spec 32's kind:executable reader is REQUIRED downstream of
