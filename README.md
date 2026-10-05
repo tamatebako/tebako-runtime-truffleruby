@@ -9,7 +9,8 @@ entry point) plus the env image (`.tfs`, mounted — never extracted).
 - **kind:** runtime (`engine: ruby`, `implementation: truffleruby`)
 - **upstream:** TruffleRuby Community 34.0.1 (oracle/truffleruby,
   graal-34.0.1) — the native-mode archives, repacked (no compilation)
-- **artifacts:** `tebako-runtime-<tebako-line>-34.0.1-<platform>` +
+- **artifacts:** `tebako-runtime-<tebako-line>-truffleruby-34.0.1-<platform>`
+  (the tebako#716 language segment is the flavor's implementation) +
   `.tfs` + `.sha256` sidecars + release shards, the derived
   `manifest.json` index + `SHA256SUMS.txt`, and this registry
   (`tpkg-registry.yaml`) on the repo's releases
@@ -40,3 +41,17 @@ rides 2.5.0 — the spec-33-aware launcher). Early signal (2026-09-07,
 fib34 kernel): the native mode runs at 0.148× MRI (~6.8× faster); the
 jvm mode as composed (CE owner, `-XX:-UseJVMCINativeLibrary`) runs
 interpreted.
+
+The pair's artifact names carry the language segment
+([tebako#716](https://github.com/tamatebako/tebako/issues/716)): new
+publishes spell `tebako-runtime-<tebako-line>-truffleruby-<version>-<platform>`
+(+ `.tfs` for that triplet's env image), where `truffleruby` is this
+runtime's distribution identity — an implementation of the ruby engine,
+carried by BOTH modes (native and jvm; the mode stays a non-axis and
+keeps riding the tebako line). Releases already published keep the
+segment-less spelling forever: they are immutable and sha256-pinned in
+this registry, and re-running an old tag composes that ref's own
+names, self-consistently. The jvm flavor's fetched **owner** pair
+(`java:graalvm`) follows the pinned owner release's own era —
+`Tebakofile`'s `owner_smoke` block gains an `implementation: graalvm`
+key when its pin moves to a release whose assets carry the segment.
