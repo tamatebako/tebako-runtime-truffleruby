@@ -575,6 +575,27 @@ if ! out=$(MSYS2_ARG_CONV_EXCL='*' env \
 fi
 echo "$out" | grep -v '^\[tebako\]' | head -2
 echo "wrapper smoke OK"
+
+step "wrapper spawn smoke (the runtime respawns its declared ruby)"
+# The #553 class: Process.spawn of a BARE name resolves against the
+# embedded manifest's spawn surface (spec 30 §2 — the read-back above
+# proves the declarations ride the image) and lands inside the
+# materialized home. A respawn of `ruby -v` is the decisive probe: it
+# re-enters the launcher exe-relatively, exactly where the ENOENT twin
+# lived. The child runs outside the driver, so its output is the plain
+# interpreter banner.
+if ! out=$(MSYS2_ARG_CONV_EXCL='*' env \
+    TEBAKO_RUNTIME_IMAGE="$(native_path "$IMG")" \
+    TMPDIR="$(native_path "$WORK/tmp")" \
+    "$OUT/$STEM$EXE_SUFFIX" --tebako-entry "$INT_NAME" \
+    -e 'child = IO.popen(["ruby", "-v"], &:read); abort("spawn smoke: no child output") if child.to_s.empty?; puts "respawn OK: #{child.strip}"' 2>&1); then
+  echo "::error::wrapper spawn smoke failed: $out"
+  exit 1
+fi
+echo "$out" | grep -v '^\[tebako\]' | head -2
+echo "$out" | grep -q "respawn OK" || {
+  echo "::error::wrapper spawn smoke: the respawn marker is absent: $out"; exit 1; }
+echo "wrapper spawn smoke OK"
 else
 # ------------------------------------------------------ jvm-mode smokes
 step "standalone NEGATIVE smoke (spec 33 §5: the pair alone fails closed)"
@@ -648,14 +669,20 @@ ruby -rjson -e 'puts JSON.pretty_generate([JSON.parse(File.read(ARGV[0]))])' \
   "$OUT/$STEM.manifest.json" > "$ddir/manifest.json"
 
 # The probe payload (kind app, runtime_requirement truffleruby) — the
-# spec-33 dogfood's P-cell shape: prints RUBY_ENGINE and loads the json
-# cext (the sulong path — the llvm.home token's proof).
+# spec-33 dogfood's P-cell shape: prints RUBY_ENGINE, loads the json
+# cext (the sulong path — the llvm.home token's proof), and respawns
+# the declared bare `ruby` (the #553 class — the driver composes the
+# owner java for the child too, so the spawn surface is proven on the
+# real wire, not assumed).
 SMOKE_STAGE="$WORK/smoke-stage"
 mkdir -p "$SMOKE_STAGE/app/bin" "$SMOKE_STAGE/__tpkg__"
 cat > "$SMOKE_STAGE/app/bin/hello" <<'RUBY'
 puts "hello from #{RUBY_ENGINE} #{RUBY_VERSION}"
 require "json"
 puts JSON.generate({ok: true, engine: RUBY_ENGINE})
+child = IO.popen(["ruby", "-v"], &:read)
+abort "spawn smoke: no child output" if child.to_s.empty?
+puts "respawn OK: #{child.strip}"
 RUBY
 chmod 755 "$SMOKE_STAGE/app/bin/hello"
 cat > "$SMOKE_STAGE/__tpkg__/manifest.yaml" <<YAML
@@ -692,5 +719,7 @@ out=$(env TEBAKO_HOME="$STORE" TEBAKO_OFFLINE=1 TEBAKO_RBCSMOKE_VERSION=0.1.0 \
 echo "$out" | grep -v '^\[tebako\]' | head -3
 echo "$out" | grep -q '"engine":"truffleruby"' || {
   echo "::error::composed smoke did not run on truffleruby: $out"; exit 1; }
-echo "composed smoke OK (shim → truffleruby-jvm → graalvm owner, json cext loaded)"
+echo "$out" | grep -q "respawn OK" || {
+  echo "::error::composed spawn smoke: the respawn marker is absent: $out"; exit 1; }
+echo "composed smoke OK (shim → truffleruby-jvm → graalvm owner, json cext loaded, respawn proven)"
 fi
