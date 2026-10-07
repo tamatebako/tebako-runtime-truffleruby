@@ -576,19 +576,21 @@ fi
 echo "$out" | grep -v '^\[tebako\]' | head -2
 echo "wrapper smoke OK"
 
-step "wrapper spawn smoke (the runtime respawns its declared ruby)"
-# The #553 class: Process.spawn of a BARE name resolves against the
-# embedded manifest's spawn surface (spec 30 §2 — the read-back above
-# proves the declarations ride the image) and lands inside the
-# materialized home. A respawn of `ruby -v` is the decisive probe: it
-# re-enters the launcher exe-relatively, exactly where the ENOENT twin
-# lived. The child runs outside the driver, so its output is the plain
-# interpreter banner.
+step "wrapper spawn smoke (the runtime respawns its own interpreter)"
+# The #553 class, probed honestly: a BARE-name spawn would consult the
+# host PATH first on this invocation shape and find the runner's own
+# ruby — a vacuous pass (the first version of this gate respawned the
+# runner's ruby 3.3.12 and called it green). The decisive target is
+# RbConfig.ruby — the runtime's OWN interpreter path. With exec-cache
+# visibility that path lives in the materialized home, so the spawn
+# exercises the exe-materialization + exe-relative home resolution
+# where the ENOENT twin lived. The child's banner must name the
+# parent's engine: anything else is a wrong-ruby spawn, by name.
 if ! out=$(MSYS2_ARG_CONV_EXCL='*' env \
     TEBAKO_RUNTIME_IMAGE="$(native_path "$IMG")" \
     TMPDIR="$(native_path "$WORK/tmp")" \
     "$OUT/$STEM$EXE_SUFFIX" --tebako-entry "$INT_NAME" \
-    -e 'child = IO.popen(["ruby", "-v"], &:read); abort("spawn smoke: no child output") if child.to_s.empty?; puts "respawn OK: #{child.strip}"' 2>&1); then
+    -e 'child = IO.popen([RbConfig.ruby, "-v"], &:read); abort("spawn smoke: no child output") if child.to_s.empty?; abort("spawn smoke: the child is not #{RUBY_ENGINE}: #{child.strip}") unless child.downcase.include?(RUBY_ENGINE); puts "respawn OK (#{RUBY_ENGINE}): #{child.strip}"' 2>&1); then
   echo "::error::wrapper spawn smoke failed: $out"
   exit 1
 fi
@@ -671,18 +673,20 @@ ruby -rjson -e 'puts JSON.pretty_generate([JSON.parse(File.read(ARGV[0]))])' \
 # The probe payload (kind app, runtime_requirement truffleruby) — the
 # spec-33 dogfood's P-cell shape: prints RUBY_ENGINE, loads the json
 # cext (the sulong path — the llvm.home token's proof), and respawns
-# the declared bare `ruby` (the #553 class — the driver composes the
-# owner java for the child too, so the spawn surface is proven on the
-# real wire, not assumed).
+# its own interpreter through RbConfig.ruby (the #553 class — a bare
+# name would find the runner's HOST ruby and pass vacuously; the own-
+# interpreter path exercises the materialized home, and the child's
+# banner must name the engine, so a wrong-ruby spawn fails by name).
 SMOKE_STAGE="$WORK/smoke-stage"
 mkdir -p "$SMOKE_STAGE/app/bin" "$SMOKE_STAGE/__tpkg__"
 cat > "$SMOKE_STAGE/app/bin/hello" <<'RUBY'
 puts "hello from #{RUBY_ENGINE} #{RUBY_VERSION}"
 require "json"
 puts JSON.generate({ok: true, engine: RUBY_ENGINE})
-child = IO.popen(["ruby", "-v"], &:read)
+child = IO.popen([RbConfig.ruby, "-v"], &:read)
 abort "spawn smoke: no child output" if child.to_s.empty?
-puts "respawn OK: #{child.strip}"
+abort "spawn smoke: the child is not #{RUBY_ENGINE}: #{child.strip}" unless child.downcase.include?(RUBY_ENGINE)
+puts "respawn OK (#{RUBY_ENGINE}): #{child.strip}"
 RUBY
 chmod 755 "$SMOKE_STAGE/app/bin/hello"
 cat > "$SMOKE_STAGE/__tpkg__/manifest.yaml" <<YAML
