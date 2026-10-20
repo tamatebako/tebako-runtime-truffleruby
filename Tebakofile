@@ -193,7 +193,7 @@ runtime:
   # release's SHA256SUMS entries, fetched 2026-09-28.
   wrapper_sha256:
     macos-arm64: "eeee3f7bff1f7b8bd3b17e624ab5856c4fb5d8edb446f79ab962b44bd5651704"
-    linux-gnu-x86_64: "2f2cf0ea2626179d3bad89198ffaae7e2f233d98f52227938f7935cbb660200f"
+    linux-gnu-x86_64: "7829d1a1f221aeca7bd79be40ebf3999563cbcff436f961b40bc08772ff06d1b"
     linux-gnu-arm64: "6083e904f26feb3c3082ecdafa34e48c483772a44ddf98db06571fd2a0a0878c"
 
 # Factory tools used by tools/build (the imager + the preload shim): the
@@ -215,11 +215,11 @@ tools:
   sha256:
     tfs:
       macos-arm64: "ac5237214f610f89089684aa0041fdbd43fa929c237a0d716e9fa1dc5bcfa0fe"
-      linux-gnu-x86_64: "8b752cb7bc8337960bf77f36cc375e6bc6f75b1d78e6d50c0000a33b26be51b9"
+      linux-gnu-x86_64: "f1ea8235e713d4335c7666c2c337de8cdf6790810f3820d34ad206d39c383977"
       linux-gnu-arm64: "f4f2aa622a8322114a464f15c54e02b558d1cc8e5563154bcec608e2408fb29d"
     link-unit:                       # all legs are POSIX (upstream ships no windows build)
-      macos-arm64: "ac5237214f610f89089684aa0041fdbd43fa929c237a0d716e9fa1dc5bcfa0fe"
-      linux-gnu-x86_64: "f997a363a02ba2df19f201f3de05e8e3e5c7cedf97d0c646ec4ecbedd377da58"
+      macos-arm64: "37f0546157e2fc9578afd812398c3a32e84b046351bd1c96419a322e890ec5cc"
+      linux-gnu-x86_64: "4386fa6780c83b6225a6b41141cb5dd83edad85b1da08807f8a7a88643fb4e9d"
       linux-gnu-arm64: "6a9c002c3c6719217e98b121bd9ee4ff5b75bcf3a513030b8c8e9395b39fa9ae"
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
