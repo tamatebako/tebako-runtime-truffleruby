@@ -125,7 +125,7 @@ flavors:
           strip_components: 1
     owner_smoke:
       repo: "tamatebako/tebako-runtime-openjdk"
-      release: "v2.8.21"
+      release: "v2.8.47"
       version: "25.0.4.1"
       # The owner line MUST be >= 2.5.0 — the spec-33 entry-routing rule
       # (the entry resolves past the dep mount) lives in that launcher; a
@@ -143,13 +143,14 @@ flavors:
       # key; the bump to a post-#716 owner release adds
       # `implementation: graalvm` here, and tools/pins.rb's OWNER_STEM
       # composes the segmented name from it.
-      tebako: "2.8.21"
+      tebako: "2.8.47"
+      implementation: "graalvm"
       exe_sha256:
-        macos-arm64: "2754c8985420a208f32ef277ca78c8c5f7e4a5aeac9a3e97c1420ece9b56edd8"
-        linux-gnu-x86_64: "2f2cf0ea2626179d3bad89198ffaae7e2f233d98f52227938f7935cbb660200f"
+        macos-arm64: "eeee3f7bff1f7b8bd3b17e624ab5856c4fb5d8edb446f79ab962b44bd5651704"
+        linux-gnu-x86_64: "7829d1a1f221aeca7bd79be40ebf3999563cbcff436f961b40bc08772ff06d1b"
       image_sha256:
-        macos-arm64: "d901f04b1a4d1bef88cc4e84a87b1e87677fb82d44b1492b0bae1b880d216b45"
-        linux-gnu-x86_64: "91929057562a5c59260d5d338253c477aa1358a7b67bbce5fd530ff7369ac279"
+        macos-arm64: "d6f62fad0853c3a30828d5ba2181bd134cf8b76fbceacc42bb17f4ac12c8605b"
+        linux-gnu-x86_64: "9a78cf9ca6ffb90c54426f0d616a2feeea98d011d51754a27a3193b60cfc77d8"
 
 runtime:
   engine: "ruby"
