@@ -228,9 +228,9 @@ tools:
     # the jvm legs' smoke fetches it. Digests are the v2.8.21 release's
     # SHA256SUMS entries (cross-checked at fetch like the tfs pin).
     tebako-shim:
-      macos-arm64: "37f0546157e2fc9578afd812398c3a32e84b046351bd1c96419a322e890ec5cc"
-      linux-gnu-x86_64: "f07b025832eaf9ba1c416e306d607791e2a90418a3174b62d4510a7eba9d1f91"
-      linux-gnu-arm64: "7c199d2571ef903b104303d1fe58d87a0122dab591c0093bac577050ccbb8dd6"
+      macos-arm64: "250e52f76cd16a5169fd98b4837b148f23138ab1d93330ce17d71c0d9a219602"
+      linux-gnu-x86_64: "8bf8320e7363af746e12d3b9f365ae35489553629326369abad30e65b2e88d43"
+      linux-gnu-arm64: "6bb22f01e90c2c15c8f645fdbe905722a8e7b80a0df4c317e8e855a4a6ad1091"
 
 image:
   format: limnifs
