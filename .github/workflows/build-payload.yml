@@ -82,7 +82,7 @@ jobs:
     # non-PR event — never suppresses the legs, and neither does a
     # detection failure (a missing output reads as "not registry-only":
     # the safe default is to build).
-    if: github.event_name != 'pull_request' || needs.changes.outputs.registry_only != 'true'
+    if: ${{ always() && (github.event_name != 'pull_request' || needs.changes.outputs.registry_only != 'true') }}
     runs-on: ${{ matrix.platform.os }}
     strategy:
       fail-fast: false
