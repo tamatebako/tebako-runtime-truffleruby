@@ -12,24 +12,6 @@ schema_version: 1
 # and no macos-x86_64 build — the three triplets below are the complete
 # declarative matrix, never an omission.
 payloads:
-- name: truffleruby
-  kind: runtime
-  versions:
-  - version: '34.0.1'
-    implementation: truffleruby
-    platforms:
-      aarch64-macos:
-        artifact: tebako-runtime-2.8.21-34.0.1-macos-arm64.tfs
-        sha256: 'a24c3dba816229b7d79febc67c04b254853cb93b67e82b5f337b7ef35e072d04'
-      x86_64-linux-gnu:
-        artifact: tebako-runtime-2.8.21-34.0.1-linux-gnu-x86_64.tfs
-        sha256: '3425e55328d66fcc25b8fadec3bf4ac2e86e7f9e2a711a4fb813448ba7ef266c'
-      aarch64-linux-gnu:
-        artifact: tebako-runtime-2.8.21-34.0.1-linux-gnu-arm64.tfs
-        sha256: '60304553df8c19179c5271d744bd4d0af11de9c9da343c1c77f0cfab88116280'
-    release:
-      ref: tfs:github:tamatebako/tebako-runtime-truffleruby:v2.8.21
-  default: '34.0.1'
 - name: truffleruby-jvm
   kind: runtime
   versions:
@@ -44,4 +26,22 @@ payloads:
         sha256: '05fd9a7e31ccb5a54c7dd1df9e7570a80025f446d3b013dd0aa1ce3f435ce2b0'
     release:
       ref: tfs:github:tamatebako/tebako-runtime-truffleruby:v2.8.22
+  default: '34.0.1'
+- name: truffleruby
+  kind: runtime
+  versions:
+  - version: '34.0.1'
+    implementation: truffleruby
+    platforms:
+      aarch64-macos:
+        artifact: tebako-runtime-2.8.47-truffleruby-34.0.1-macos-arm64.tfs
+        sha256: 'e6c86ab4caa2bc795edd992a3c9ce8e0f53b012211337fdcdf2252f988f94458'
+      x86_64-linux-gnu:
+        artifact: tebako-runtime-2.8.47-truffleruby-34.0.1-linux-gnu-x86_64.tfs
+        sha256: '8dba971641aad15bd4b1e598e11323ca11f4962350e2988bc6539dc196684438'
+      aarch64-linux-gnu:
+        artifact: tebako-runtime-2.8.47-truffleruby-34.0.1-linux-gnu-arm64.tfs
+        sha256: '754ea4213d20800ac418fa5dad8d0e9c2d62630b6bae0610a22f5b10527e2799'
+    release:
+      ref: tfs:github:tamatebako/tebako-runtime-truffleruby:v2.8.47
   default: '34.0.1'
