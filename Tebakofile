@@ -227,12 +227,12 @@ tools:
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
     # tool platforms so the native legs' pins.rb run stays total; only
-    # the jvm legs' smoke fetches it. Digests are the v2.8.21 release's
+    # the jvm legs' smoke fetches it. Digests are the pinned line's own
     # SHA256SUMS entries (cross-checked at fetch like the tfs pin).
     tebako-shim:
-      macos-arm64: "250e52f76cd16a5169fd98b4837b148f23138ab1d93330ce17d71c0d9a219602"
-      linux-gnu-x86_64: "8bf8320e7363af746e12d3b9f365ae35489553629326369abad30e65b2e88d43"
-      linux-gnu-arm64: "6bb22f01e90c2c15c8f645fdbe905722a8e7b80a0df4c317e8e855a4a6ad1091"
+      macos-arm64: "3539806c05bd49d92b2f89765b2ffd8ea32568261f240350fa75a96ee99b5c57"
+      linux-gnu-x86_64: "7809932b3ca3cf69b2b76f19677ab60e7ef6040aff0898a100f97a608a794d24"
+      linux-gnu-arm64: "31c3fd2e97572516782e0a9077d9405036a13e0e735dbc73bb93b51a0d17f256"
 
 image:
   format: limnifs
