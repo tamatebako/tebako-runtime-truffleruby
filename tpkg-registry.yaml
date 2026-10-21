@@ -34,14 +34,14 @@ payloads:
     implementation: truffleruby
     platforms:
       aarch64-macos:
-        artifact: tebako-runtime-2.8.47-truffleruby-34.0.1-macos-arm64.tfs
-        sha256: 'e6c86ab4caa2bc795edd992a3c9ce8e0f53b012211337fdcdf2252f988f94458'
+        artifact: tebako-runtime-2.8.49-truffleruby-34.0.1-macos-arm64.tfs
+        sha256: 'dafe5750f1eca155dbb6bfee8511e04e24e9d98fbd3509891762f2820c375eb1'
       x86_64-linux-gnu:
-        artifact: tebako-runtime-2.8.47-truffleruby-34.0.1-linux-gnu-x86_64.tfs
-        sha256: '8dba971641aad15bd4b1e598e11323ca11f4962350e2988bc6539dc196684438'
+        artifact: tebako-runtime-2.8.49-truffleruby-34.0.1-linux-gnu-x86_64.tfs
+        sha256: '1215f6d4f1efec4a389ef6ffbf5c8fb68eac19a7ca4dda183a120c65e1917e9b'
       aarch64-linux-gnu:
-        artifact: tebako-runtime-2.8.47-truffleruby-34.0.1-linux-gnu-arm64.tfs
-        sha256: '754ea4213d20800ac418fa5dad8d0e9c2d62630b6bae0610a22f5b10527e2799'
+        artifact: tebako-runtime-2.8.49-truffleruby-34.0.1-linux-gnu-arm64.tfs
+        sha256: 'a7895946c340f25ffae2132090a2ff80174bc81cd8be566f20d43f15c6b2bd60'
     release:
-      ref: tfs:github:tamatebako/tebako-runtime-truffleruby:v2.8.47
+      ref: tfs:github:tamatebako/tebako-runtime-truffleruby:v2.8.49
   default: '34.0.1'
