@@ -187,15 +187,17 @@ runtime:
   # this runtime — see the openjdk recipe's pin-comment history); the
   # jvm flavor overrides per-flavor
   # (flavors.jvm.wrapper_tebako 2.5.0 — the spec-33-aware launcher).
-  wrapper_tebako: "2.8.47"
+  wrapper_tebako: "2.8.49"
   # The wrapper's trust anchor, per tool-platform (the launcher is the
   # shipped runtime pair's process entry point — an unauthenticated
-  # download would be a supply-chain hole). Digests are the v2.8.21
-  # release's SHA256SUMS entries, fetched 2026-09-28.
+  # download would be a supply-chain hole). Digests are the v2.8.49
+  # release's own asset digests, fetched 2026-10-21 (v2.8.47 → v2.8.49
+  # carries the tebako#831 entry bridge + the tebako#839 .drectve
+  # NUL-delimiter).
   wrapper_sha256:
-    macos-arm64: "eeee3f7bff1f7b8bd3b17e624ab5856c4fb5d8edb446f79ab962b44bd5651704"
-    linux-gnu-x86_64: "7829d1a1f221aeca7bd79be40ebf3999563cbcff436f961b40bc08772ff06d1b"
-    linux-gnu-arm64: "6083e904f26feb3c3082ecdafa34e48c483772a44ddf98db06571fd2a0a0878c"
+    macos-arm64: "e1da83755fd4513e8d9b6400910392093be4d3a00fd3d96bf8962de7d9158ee9"
+    linux-gnu-x86_64: "1457f49d4f6a6f2432cd4a7e475b42898812d7e53e5119a733a6433ddedb19da"
+    linux-gnu-arm64: "881875ce2445fb6f8e1fe2d40c13bd24b78ea570b450cdf65e93658c5775b46f"
 
 # Factory tools used by tools/build (the imager + the preload shim): the
 # tfs CLI and the link-unit tarball from the tamatebako/tebako release.
@@ -212,16 +214,16 @@ runtime:
 # with the same 2.5.0 tools — the model is a strict superset.
 tools:
   repo: "tamatebako/tebako"
-  release: "v2.8.47"
+  release: "v2.8.49"
   sha256:
     tfs:
-      macos-arm64: "ac5237214f610f89089684aa0041fdbd43fa929c237a0d716e9fa1dc5bcfa0fe"
-      linux-gnu-x86_64: "f1ea8235e713d4335c7666c2c337de8cdf6790810f3820d34ad206d39c383977"
-      linux-gnu-arm64: "f4f2aa622a8322114a464f15c54e02b558d1cc8e5563154bcec608e2408fb29d"
+      macos-arm64: "ab69970e60a0e46257f48843cb8a7de982564baf864e4583ba2beafd3d6ead3f"
+      linux-gnu-x86_64: "58d58ba392190f57325d948a7c4c9fd05494b40f4f0f3c4b2c242dd15f6b12e3"
+      linux-gnu-arm64: "2aa862c8a07ab4ce4ef0cccbd2b8b3f4fb0c1b93fc5032bc06c2d95b810438a9"
     link-unit:                       # all legs are POSIX (upstream ships no windows build)
-      macos-arm64: "37f0546157e2fc9578afd812398c3a32e84b046351bd1c96419a322e890ec5cc"
-      linux-gnu-x86_64: "4386fa6780c83b6225a6b41141cb5dd83edad85b1da08807f8a7a88643fb4e9d"
-      linux-gnu-arm64: "6a9c002c3c6719217e98b121bd9ee4ff5b75bcf3a513030b8c8e9395b39fa9ae"
+      macos-arm64: "c51032a8e7e9e50ab9b35dbcbeb3c3cc20a4fb54b03b730f2eec8ce80d881552"
+      linux-gnu-x86_64: "f4f5a37fc7895ab1cad6245a6624231ec923b0b86f109a937d2a3712f839e111"
+      linux-gnu-arm64: "3c2ff1a3fb137d3cf8e210602cc0a670e59d5b6597ddd5991d380ced1558fa94"
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
     # tool platforms so the native legs' pins.rb run stays total; only
