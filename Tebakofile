@@ -192,7 +192,7 @@ runtime:
   # KEEPS its 2.8.22 override deliberately — the store entry name
   # carries the tebako line, so two flavors on one line would collide in
   # a single store; the split is what makes them coexist.
-  wrapper_tebako: "2.8.57"
+  wrapper_tebako: "2.8.58"
   # The wrapper's trust anchor, per tool-platform (the launcher is the
   # shipped runtime pair's process entry point — an unauthenticated
   # download would be a supply-chain hole). Digests are the v2.8.49
@@ -200,9 +200,9 @@ runtime:
   # carries the tebako#831 entry bridge + the tebako#839 .drectve
   # NUL-delimiter).
   wrapper_sha256:
-    macos-arm64: "6f9d06b0fb2c1ea856a7fd9eabeafdc82001ff3a083c32ea7a387ed69c365287"
-    linux-gnu-x86_64: "ca4526d6f7a67bf93840ac8a50a7460567b50ba612968adb97ca106f589aa1ef"
-    linux-gnu-arm64: "d51fa6d0cadd161c41c54ab63b3bef20a33c90e5a1c0703c3abfd3e2d41a0af6"
+    macos-arm64: "10c4b6c8e5585e5923c9fad5e7ce021c0d2167af5ae8a17c55790c323f1f8503"
+    linux-gnu-x86_64: "bacf940e4ca02e236d5b0fa6547c5a2d798cfda662764f59bb83ac7b55e0aff9"
+    linux-gnu-arm64: "eb5daf7c6929b76743534605504f1eff959b2ac139de4f3177e4df652205ac4b"
 
 # Factory tools used by tools/build (the imager + the preload shim): the
 # tfs CLI and the link-unit tarball from the tamatebako/tebako release.
@@ -219,25 +219,25 @@ runtime:
 # with the same 2.5.0 tools — the model is a strict superset.
 tools:
   repo: "tamatebako/tebako"
-  release: "v2.8.57"
+  release: "v2.8.58"
   sha256:
     tfs:
-      macos-arm64: "b8f2053f31d14dc2546d523979444ddf52aca911b18933fb5622218c4dd8f2af"
-      linux-gnu-x86_64: "e06ecf87f46d39f90523fcbb7155ab74dbe231c5c4e24845b0b62fba4a5a5db3"
-      linux-gnu-arm64: "7d75ad5b465bad363f34044a9c6b1d0936c96a63e54905bc99844840e3e21392"
+      macos-arm64: "08faa0b159c9fc704d898599ef1d7b5cc6cc35ab3a698e8f452f39309be52895"
+      linux-gnu-x86_64: "3af8d07f7bbcb42204b9d8368096b490d572a4aed2ca00f65d16c6a93e2e9344"
+      linux-gnu-arm64: "6bfa8866b67798c01eb4f3dc602d3230607011547c34334d171f8677417cdce1"
     link-unit:                       # all legs are POSIX (upstream ships no windows build)
-      macos-arm64: "d4d7f5e41f4f54d434b97a3d7853fa7bf27c0c78409fedf0c21d8e68fbfbf5c4"
-      linux-gnu-x86_64: "2522f0c3a3d920fd1e1b2a5896c7151872e5a83d5d2a61ffeaf83d6fe012abe8"
-      linux-gnu-arm64: "4e1f63663be79a91f6b45c5ba4376f3ab75de605149c65de8e13e9ab467130d7"
+      macos-arm64: "c8d76f54f088c798d8b81e43cff62e0bdf29abd0f5b156ab87c089dea804762a"
+      linux-gnu-x86_64: "8b717414e790a62819d0cb5a32e25d2467b1506171727ef0511270db3cc32738"
+      linux-gnu-arm64: "4a88a37d0b0163317f59b278203fb529a6e2a2f5922cc6705a07f5005ec58e44"
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
     # tool platforms so the native legs' pins.rb run stays total; only
     # the jvm legs' smoke fetches it. Digests are the pinned line's own
     # SHA256SUMS entries (cross-checked at fetch like the tfs pin).
     tebako-shim:
-      macos-arm64: "5f1831178bc8033971460c47d4ac52acb0835b59a0babdc029eaef0a4c5dbf0c"
-      linux-gnu-x86_64: "701e4a9c294cabe1c38d11ceb46f32e22fb7fb29ff396b20d5466f206f86b55c"
-      linux-gnu-arm64: "ddea0453b9851969f79a4739dd1751ea8c5b25171b6fd72b8afd95ff908358c6"
+      macos-arm64: "58b37851ac09c7c56151c47bc0d3c4f43d2d4e4e66c42a09291b4aecbc3450d9"
+      linux-gnu-x86_64: "dd2ac891bef751753c19599a8830a61d105076e22110c99fbe0d06c8ee96beb6"
+      linux-gnu-arm64: "a3a687541d96650e784130aec23d70cca80ac9fe284f355a21fee752f4025365"
 
 image:
   format: limnifs
