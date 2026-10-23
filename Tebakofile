@@ -226,18 +226,18 @@ tools:
       linux-gnu-x86_64: "e06ecf87f46d39f90523fcbb7155ab74dbe231c5c4e24845b0b62fba4a5a5db3"
       linux-gnu-arm64: "7d75ad5b465bad363f34044a9c6b1d0936c96a63e54905bc99844840e3e21392"
     link-unit:                       # all legs are POSIX (upstream ships no windows build)
-      macos-arm64: "feec3b466cf6a3ba733e575bd6889d8f18a3d09dec2ab9039da19a3c7ad3457c"
-      linux-gnu-x86_64: "98fc47a3159a7afe6751d25b6588877ff68eeab32864a5a2acede1f7f343cc88"
-      linux-gnu-arm64: "94967361762b6dd1f4cf70a3c7a2320f87fc199a15a23a34789a123cf27ee776"
+      macos-arm64: "d4d7f5e41f4f54d434b97a3d7853fa7bf27c0c78409fedf0c21d8e68fbfbf5c4"
+      linux-gnu-x86_64: "2522f0c3a3d920fd1e1b2a5896c7151872e5a83d5d2a61ffeaf83d6fe012abe8"
+      linux-gnu-arm64: "4e1f63663be79a91f6b45c5ba4376f3ab75de605149c65de8e13e9ab467130d7"
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
     # tool platforms so the native legs' pins.rb run stays total; only
     # the jvm legs' smoke fetches it. Digests are the pinned line's own
     # SHA256SUMS entries (cross-checked at fetch like the tfs pin).
     tebako-shim:
-      macos-arm64: "bea764b6199f1b042e1b908f763b62d1b20256a37598c0d8e138827707d6e9d8"
-      linux-gnu-x86_64: "f069fd722f718bf6e498953ad2afa10be5270a05425aff1c50fcacdd7aa577e6"
-      linux-gnu-arm64: "339ac16be9a8085b14071fd302004e1aa7902bfe831bb5e7090849ea8f505841"
+      macos-arm64: "5f1831178bc8033971460c47d4ac52acb0835b59a0babdc029eaef0a4c5dbf0c"
+      linux-gnu-x86_64: "701e4a9c294cabe1c38d11ceb46f32e22fb7fb29ff396b20d5466f206f86b55c"
+      linux-gnu-arm64: "ddea0453b9851969f79a4739dd1751ea8c5b25171b6fd72b8afd95ff908358c6"
 
 image:
   format: limnifs
