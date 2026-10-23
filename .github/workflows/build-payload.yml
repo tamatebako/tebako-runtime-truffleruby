@@ -385,6 +385,7 @@ jobs:
           set -euo pipefail
           tag="${{ github.ref_name }}"
           sha_for() { cut -d' ' -f1 "out/$1/$2.tfs.sha256"; }
+          blk_for() { cut -d' ' -f1 "out/$1/$2.tfs.blksum.json.sha256"; }
           if [ "$PUBLISH_FLAVOR" = jvm ]; then
             tpl=manifests/registry-jvm.yaml
             sed -e "s|@@VERSION@@|$PKG_VERSION|g" \
@@ -392,6 +393,8 @@ jobs:
                 -e "s|@@TAG@@|$tag|g" \
                 -e "s|@@SHA256_MACOS@@|$(sha_for jvm-aarch64-macos "$RUNTIME_STEM_BASE-macos-arm64")|g" \
                 -e "s|@@SHA256_LINUX@@|$(sha_for jvm-x86_64-linux-gnu "$RUNTIME_STEM_BASE-linux-gnu-x86_64")|g" \
+                -e "s|@@BLKSUM_MACOS@@|$(blk_for jvm-aarch64-macos "$RUNTIME_STEM_BASE-macos-arm64")|g" \
+                -e "s|@@BLKSUM_LINUX@@|$(blk_for jvm-x86_64-linux-gnu "$RUNTIME_STEM_BASE-linux-gnu-x86_64")|g" \
                 "$tpl" > rendered-entry.yaml
           else
             tpl=manifests/registry.yaml
@@ -401,6 +404,9 @@ jobs:
                 -e "s|@@SHA256_MACOS@@|$(sha_for native-aarch64-macos "$RUNTIME_STEM_BASE-macos-arm64")|g" \
                 -e "s|@@SHA256_LINUX@@|$(sha_for native-x86_64-linux-gnu "$RUNTIME_STEM_BASE-linux-gnu-x86_64")|g" \
                 -e "s|@@SHA256_LINUX_ARM@@|$(sha_for native-aarch64-linux-gnu "$RUNTIME_STEM_BASE-linux-gnu-arm64")|g" \
+                -e "s|@@BLKSUM_MACOS@@|$(blk_for native-aarch64-macos "$RUNTIME_STEM_BASE-macos-arm64")|g" \
+                -e "s|@@BLKSUM_LINUX@@|$(blk_for native-x86_64-linux-gnu "$RUNTIME_STEM_BASE-linux-gnu-x86_64")|g" \
+                -e "s|@@BLKSUM_LINUX_ARM@@|$(blk_for native-aarch64-linux-gnu "$RUNTIME_STEM_BASE-linux-gnu-arm64")|g" \
                 "$tpl" > rendered-entry.yaml
           fi
           # The template renders the full document for the FIRST publish;
