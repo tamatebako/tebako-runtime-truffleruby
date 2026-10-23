@@ -21,12 +21,21 @@ payloads:
       aarch64-macos:
         artifact: @@STEM@@-macos-arm64.tfs
         sha256: '@@SHA256_MACOS@@'
+        blksum:
+          filename: @@STEM@@-macos-arm64.tfs.blksum.json
+          sha256: '@@BLKSUM_MACOS@@'
       x86_64-linux-gnu:
         artifact: @@STEM@@-linux-gnu-x86_64.tfs
         sha256: '@@SHA256_LINUX@@'
+        blksum:
+          filename: @@STEM@@-linux-gnu-x86_64.tfs.blksum.json
+          sha256: '@@BLKSUM_LINUX@@'
       aarch64-linux-gnu:
         artifact: @@STEM@@-linux-gnu-arm64.tfs
         sha256: '@@SHA256_LINUX_ARM@@'
+        blksum:
+          filename: @@STEM@@-linux-gnu-arm64.tfs.blksum.json
+          sha256: '@@BLKSUM_LINUX_ARM@@'
     release:
       ref: tfs:github:tamatebako/tebako-runtime-truffleruby:@@TAG@@
   default: '@@VERSION@@'
