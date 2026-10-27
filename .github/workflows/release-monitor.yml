@@ -1,0 +1,89 @@
+# The truffleruby release monitor (propose-bump shape) — the bun/node
+# factories' monitor, adapted to this recipe: TWO flavors (`native` and
+# `jvm`) that ride ONE upstream release (graal-<ruby major>.<x>.<y>; the
+# recipe's own tag gives the line, 34). Daily: tools/monitor reads the newest
+# oracle/truffleruby tag on that line, re-pins each flavor's
+# upstream.version / upstream.tag and its source url:/sha256:, and this
+# workflow turns the dirty tree into a pull request. TruffleRuby publishes
+# NO checksums, so each new archive is downloaded and hashed on the stream
+# (the byte count is printed) — the monitor never invents a digest. A newer
+# line (graal-40 today) is reported as newer_line and deliberately not
+# crossed. Never merges — the bump PR rides the PR checks and merges like
+# every other PR.
+name: release-monitor
+
+on:
+  schedule:
+    # Off the :00/:30 herd; distinct from tamatebako/ruby's 17 6,
+    # tebako-runtime-node's 41 6, tebako-runtime-bun's 53 6,
+    # tebako-runtime-openjdk's 19 6 and tebako-runtime-jruby's 31 6.
+    - cron: "47 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-monitor
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    name: propose the next truffleruby pin
+    runs-on: ubuntu-latest
+    outputs:
+      verdict: ${{ steps.monitor.outputs.verdict }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # This repo has no Gemfile: the monitor is stdlib-only, so only the
+      # interpreter is needed.
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: "3.3"
+
+      - name: check upstream + rewrite the pins
+        id: monitor
+        # GH_TOKEN authenticates the api.github.com calls: an anonymous
+        # request shares the runner IP's quota and answers 403 under load
+        # (the 2026-10-23 bun run, tamatebako/tebako-runtime-bun#30). The
+        # monitor retries a quota answer (403/429) with Retry-After /
+        # x-ratelimit-reset and names it when it survives; a 404 stays a
+        # dead upstream.
+        env:
+          GH_TOKEN: ${{ secrets.TEBAKO_CI_PAT_TOKEN }}
+        run: |
+          set -euo pipefail
+          ruby tools/monitor | tee monitor-result.json
+          {
+            echo "verdict<<VERDICT_JSON_EOF"
+            cat monitor-result.json
+            echo "VERDICT_JSON_EOF"
+          } >> "$GITHUB_OUTPUT"
+          cat monitor-result.json >> "$GITHUB_STEP_SUMMARY"
+
+      # The body names what moved: each flavor's line, the version, the
+      # assets re-pinned and where each digest came from (here: the
+      # downloaded archives' own bytes). Rendered from the verdict itself so
+      # the PR and the run never disagree.
+      - name: render the bump pull request body
+        run: |
+          set -euo pipefail
+          ruby tools/monitor --pr-body monitor-result.json | tee pr-body.md
+          cat pr-body.md >> "$GITHUB_STEP_SUMMARY"
+
+      # A GITHUB_TOKEN-authored PR never triggers on:pull_request workflows
+      # (GitHub's anti-recursion rule), so the PR's checks would never
+      # report. Author with the org PAT so CI runs like on any human PR.
+      # add-paths keeps the commit to the recipe alone — never the run's
+      # monitor-result.json or pr-body.md. No auto-merge.
+      - name: open the bump pull request
+        if: fromJSON(steps.monitor.outputs.verdict).action == 'bump'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.TEBAKO_CI_PAT_TOKEN }}
+          branch: monitor/truffleruby-pin
+          add-paths: Tebakofile
+          title: ${{ fromJSON(steps.monitor.outputs.verdict).title }}
+          commit-message: ${{ fromJSON(steps.monitor.outputs.verdict).title }}
+          body-path: pr-body.md
