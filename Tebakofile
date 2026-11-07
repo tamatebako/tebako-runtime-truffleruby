@@ -219,25 +219,25 @@ runtime:
 # with the same 2.5.0 tools — the model is a strict superset.
 tools:
   repo: "tamatebako/tebako"
-  release: "v2.8.66"
+  release: "v2.8.72"
   sha256:
     tfs:
-      macos-arm64: "eef0a61bdc656f5ded7b3186a1660ca8798958cbb9e44d7132dd851f7e877aaf"
-      linux-gnu-x86_64: "3a296bcb61259ebcb4232515c7f56b9578b331dd94610a3985443069d42f365a"
-      linux-gnu-arm64: "601afb8922e8ca520e646bbb1b8ed124e5d32fe0b2604b202a2a8b62de7ddba0"
+      macos-arm64: "6761c55184ff8e97619527fb4629df13e36da90157def75847c77674a5dbc52d"
+      linux-gnu-x86_64: "8ae807d6ae215ace359143a5b2ac95d96e4adbfc6d6b03b0a654f906956378f9"
+      linux-gnu-arm64: "4c68237e0e10ed4b6afe0caf568d2ac5b7165447f55740556ec825696a6caf0c"
     link-unit:                       # all legs are POSIX (upstream ships no windows build)
-      macos-arm64: "03e167ce85330e074207844c0d02703d71ba0381484c5ff9f521d4cb122bb097"
-      linux-gnu-x86_64: "67edc85ab8f7cbf5ab3f031b03ba97628d4ad531245686d415aac4adcc2dfad5"
-      linux-gnu-arm64: "2e7cf4b35489491e3317c6f39ee33264e65d5524d833a969dbcb3d744d1304c0"
+      macos-arm64: "eefc020353d9a7e36aa49d2daf239415334918c0d178ab2207ff14b8acdc28df"
+      linux-gnu-x86_64: "06bdf467035269c1a3cb91f4138e083555dd5da23d5e92d69eccff24f23436a2"
+      linux-gnu-arm64: "41b93df8defa2bab41aa9df53b5202f398c19d5f85884bda9df47eb426114959"
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
     # tool platforms so the native legs' pins.rb run stays total; only
     # the jvm legs' smoke fetches it. Digests are the pinned line's own
     # SHA256SUMS entries (cross-checked at fetch like the tfs pin).
     tebako-shim:
-      macos-arm64: "1a300785ec9688837ee9562e4b878ac224065e2989c04b82a207a93146e551d8"
-      linux-gnu-x86_64: "97b0d8f448d129f62caf3aa6be2ecd64fa945cbc8560c4bc15a07d6bfcdf4983"
-      linux-gnu-arm64: "2b96e14ca11d9edba59c704a566cad95e8903b02932848f548f73647718e4861"
+      macos-arm64: "2bd0f2d9e789a61e91d55d386fbb6249f86ae642e7b25855b4c3d1219b9d0985"
+      linux-gnu-x86_64: "84f1622adc278d61d6d2a15455af08dd4fb9c3217eb9b232ce194e903a1d5d8f"
+      linux-gnu-arm64: "174081d9fda6349dd4903a007cebab3b992e247a96fcb2d90bbf64d625771dd8"
 
 image:
   format: limnifs
