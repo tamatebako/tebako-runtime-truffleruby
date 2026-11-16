@@ -84,11 +84,11 @@ flavors:
     # flavors coexist in one store: ruby-34.0.1-2.8.21 vs -2.8.22).
     # Digests are the v2.8.22 release's SHA256SUMS entries, fetched
     # 2026-09-28.
-    wrapper_tebako: "2.8.81"
+    wrapper_tebako: "2.8.82"
     wrapper_sha256:
-      macos-arm64: "b42c1cfa6f2622063b510b9cc99d3785ab01ef825f4e211169c5de2d8c15f091"
-      linux-gnu-x86_64: "ffd229aad6e88bca0ec463352ebc1fdad33a0cf046e6e5af7f0b9e5e08e6001d"
-      linux-gnu-arm64: "b4b968b2d0c29ca798f50aa6280fae0dc3f2f7d24f8db3764c7acaab23dc69d0"
+      macos-arm64: "5565cb254e980cceb7faa71eefb795ae246a7f0f4d12bf1a43b85c3d77181bc0"
+      linux-gnu-x86_64: "ce297687f647f600ba0de6884b6cf693ba2905fdafe6c2c3490dc211d537e91e"
+      linux-gnu-arm64: "b64357a7cfe5a33659e3e79a13d0046daa41dbab60032166a45d0df758c8fcdb"
     # The owner pair the composed smoke runs against (the jvm legs
     # download it into a throwaway store): the published java:graalvm
     # line — tamatebako/tebako-runtime-openjdk v2.8.21, graalvm CE 25.0.4.1 on the
@@ -192,7 +192,7 @@ runtime:
   # KEEPS its 2.8.22 override deliberately — the store entry name
   # carries the tebako line, so two flavors on one line would collide in
   # a single store; the split is what makes them coexist.
-  wrapper_tebako: "2.8.81"
+  wrapper_tebako: "2.8.82"
   # The wrapper's trust anchor, per tool-platform (the launcher is the
   # shipped runtime pair's process entry point — an unauthenticated
   # download would be a supply-chain hole). Digests are the v2.8.49
@@ -200,9 +200,9 @@ runtime:
   # carries the tebako#831 entry bridge + the tebako#839 .drectve
   # NUL-delimiter).
   wrapper_sha256:
-    macos-arm64: "b42c1cfa6f2622063b510b9cc99d3785ab01ef825f4e211169c5de2d8c15f091"
-    linux-gnu-x86_64: "ffd229aad6e88bca0ec463352ebc1fdad33a0cf046e6e5af7f0b9e5e08e6001d"
-    linux-gnu-arm64: "b4b968b2d0c29ca798f50aa6280fae0dc3f2f7d24f8db3764c7acaab23dc69d0"
+    macos-arm64: "5565cb254e980cceb7faa71eefb795ae246a7f0f4d12bf1a43b85c3d77181bc0"
+    linux-gnu-x86_64: "ce297687f647f600ba0de6884b6cf693ba2905fdafe6c2c3490dc211d537e91e"
+    linux-gnu-arm64: "b64357a7cfe5a33659e3e79a13d0046daa41dbab60032166a45d0df758c8fcdb"
 
 # Factory tools used by tools/build (the imager + the preload shim): the
 # tfs CLI and the link-unit tarball from the tamatebako/tebako release.
@@ -219,25 +219,25 @@ runtime:
 # with the same 2.5.0 tools — the model is a strict superset.
 tools:
   repo: "tamatebako/tebako"
-  release: "v2.8.81"
+  release: "v2.8.82"
   sha256:
     tfs:
-      macos-arm64: "aefc898eaccdd0cbf353dc1cf6c1e99406a6e48be049ac1fea59c51ddd8f045e"
-      linux-gnu-x86_64: "b69d715a6523ebea4cfd05596096e7391eac770a98c15b8e79f2bb2ba19ec3fa"
-      linux-gnu-arm64: "b194726f781bbf20ca57f3eb4d8f87301c9fed2180bac86a57b79f4f366ca971"
+      macos-arm64: "d5862163caf2e79b45a844eb97381849de741562e7551b9b71d583237f791dfc"
+      linux-gnu-x86_64: "7a48edad41180a15b5e020b92eca3e3b12e0f1b43ac4988fa28a984ab4888c19"
+      linux-gnu-arm64: "385a97557d1a45ee4339fed398e531ece8aaa166d561338b35cd930b3ee88f24"
     link-unit:                       # all legs are POSIX (upstream ships no windows build)
-      macos-arm64: "66ff4a3830a2b90a06515180dcbca61c403261c95f48453ec977865285be4e19"
-      linux-gnu-x86_64: "d01ef908cf2257c2d3a6ff2ca18795d72540c8e595a4172d4b6b21c8cc306f3f"
-      linux-gnu-arm64: "bf11a229f45f90566b8c3643bd3187eb0186ec34b39ae866655c3fc82e9255e7"
+      macos-arm64: "b8d80fd06c65debb711acccee7dfafe17219c02e76f1740e55637761efd76ac2"
+      linux-gnu-x86_64: "5ac2de29d8643af6e314fa2e19e7a606d6315c340cad4cce85538f219310fcef"
+      linux-gnu-arm64: "47664170ff146d3417e75c2bdbcf343b6ea9dd0114f84eedb5368cf2b8b73657"
     # The dispatcher for the jvm legs' COMPOSED smoke (spec 33's real
     # wire: shim → dep runtime → owner runtime). Pinned for all three
     # tool platforms so the native legs' pins.rb run stays total; only
     # the jvm legs' smoke fetches it. Digests are the pinned line's own
     # SHA256SUMS entries (cross-checked at fetch like the tfs pin).
     tebako-shim:
-      macos-arm64: "d3351bd7af4883438245427b317339e6d7919cf2c4f8b6bf9f852efac872ed00"
-      linux-gnu-x86_64: "e3790b35418d45aede491bf2ef8ab36a5fd2c1b6cb502c50825de07b2b4eda3c"
-      linux-gnu-arm64: "959b70a0c95589f187b2b3720546afbf6c2e89d29da36e5c1d153385c9b44805"
+      macos-arm64: "3311d5b3b11ce56f82c5837875426aaaf8dce4b91e96a9b64706f48589ac931c"
+      linux-gnu-x86_64: "c3bea384518035d98b47d910dd6084426222c8dce4aa63c9be217fe17ea881b6"
+      linux-gnu-arm64: "94b0d03106c45e939a5aef2cf5bccae9c0b33649c6cef09f7b9bd15fe6f05615"
 
 image:
   format: limnifs
