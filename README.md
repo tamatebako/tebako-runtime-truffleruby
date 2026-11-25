@@ -55,3 +55,36 @@ names, self-consistently. The jvm flavor's fetched **owner** pair
 (`java:graalvm`) follows the pinned owner release's own era —
 `Tebakofile`'s `owner_smoke` block gains an `implementation: graalvm`
 key when its pin moves to a release whose assets carry the segment.
+
+## The macOS dyld plane (tebako#1117)
+
+The hardened runtime strips `DYLD_INSERT_LIBRARIES` at exec on macOS 14
+when the EXEC TARGET's own signature lacks
+`com.apple.security.cs.allow-dyld-environment-variables` (the
+tebako-runtime-r#5 class). Under exec-cache neither flavor has an
+insertion-dependent core IO:
+
+- The **wrapper** (tebako-signed): its boot-head self-insert fires on
+  macOS, but the wrapper only mounts, materializes, and execs —
+  nothing in its process consumes the interpose dylib (the same
+  product wrapper runs green on darwin-23 in the openjdk line with no
+  entitlements at all).
+- The **native launcher** (GraalVM CE's bytes, byte-identical): the
+  home tree materializes whole (the launcher resolves home
+  exe-relative — preload can never serve it), so core IO is host-real
+  and shim-free. The `preload_shim` grant's insertion (the jail
+  binding) is also never at risk of stripping here: upstream GraalVM
+  CE ships the launcher ADHOC-signed (`flags=0x20002
+  (adhoc,linker-signed)` — verified on the published v2.8.49 pair's
+  materialized home), and dyld strips the variable only for
+  hardened-runtime targets. The published v2.8.49 pair boots green on
+  darwin-23 (macOS 14.1.1 arm64): `truffle-boot-ok truffleruby 3.4.9`
+  with the home-relative read served.
+- The **jvm-mode sibling** composes on the graalvm owner exactly the
+  jruby way (spec 33 §2's bridge law: the JVM's home materializes
+  whole; the owner's signature governs any insertion into it).
+
+The wrapper's profile (`tools/runtime.entitlements`, the pair)
+therefore needs no dyld grant; the question reopens only if a shape
+change makes a tebako-signed exe the insertion target — this repack
+feedstock never builds one.
